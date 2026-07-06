@@ -23,11 +23,6 @@ on:
         type: string
         default: track_data
 
-# Allow one concurrent deployment
-concurrency:
-  group: pages-${{ github.ref_name }}
-  cancel-in-progress: true
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
