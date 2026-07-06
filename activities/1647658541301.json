@@ -89,12 +89,12 @@
         "com.nike.running.ios.healthkit"
     ],
     "tags": {
-        "com_nike_running_goaltype": "freeRun",
-        "com_nike_running_originalactivityid": "712C50C0-E8B2-4441-A54E-8045F8866B60",
-        "com_nike_running_recordingappversion": "7.12.0",
-        "com_nike_running_recordingsource": "watch",
-        "com_nike_running_syncappversion": "7.12.0",
-        "com_nike_running_syncsource": "watch",
+        "com.nike.running.goaltype": "freeRun",
+        "com.nike.running.originalactivityid": "712C50C0-E8B2-4441-A54E-8045F8866B60",
+        "com.nike.running.recordingappversion": "7.12.0",
+        "com.nike.running.recordingsource": "watch",
+        "com.nike.running.syncappversion": "7.12.0",
+        "com.nike.running.syncsource": "watch",
         "location": "outdoors"
     },
     "change_tokens": [

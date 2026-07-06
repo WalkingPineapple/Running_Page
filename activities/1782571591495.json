@@ -1,0 +1,127 @@
+{
+    "id": "e28d3908-a892-42d0-a410-1dbd74b5783f",
+    "type": "run",
+    "app_id": "com.nike.sport.running.ios",
+    "start_epoch_ms": 1782569551495,
+    "end_epoch_ms": 1782571591495,
+    "last_modified": 1782569588870,
+    "active_duration_ms": 2040000,
+    "session": false,
+    "delete_indicator": false,
+    "summaries": [
+        {
+            "metric": "nikefuel",
+            "summary": "mean",
+            "source": "com.nike.nikefuelengine.1.0-A5.0",
+            "app_id": "com.nike.sport.running.ios",
+            "value": 0.06819887543252597
+        },
+        {
+            "metric": "speed",
+            "summary": "mean",
+            "source": "com.nike.running.ios.manualentry",
+            "app_id": "com.nike.sport.running.ios",
+            "value": 8.823529411764707
+        },
+        {
+            "metric": "distance",
+            "summary": "total",
+            "source": "com.nike.running.ios.manualentry",
+            "app_id": "com.nike.sport.running.ios",
+            "value": 5
+        },
+        {
+            "metric": "nikefuel",
+            "summary": "total",
+            "source": "com.nike.nikefuelengine.1.0-A5.0",
+            "app_id": "com.nike.sport.running.ios",
+            "value": 2.318761764705883
+        },
+        {
+            "metric": "pace",
+            "summary": "mean",
+            "source": "com.nike.running.ios.manualentry",
+            "app_id": "com.nike.sport.running.ios",
+            "value": 6.8
+        }
+    ],
+    "sources": [
+        "com.nike.speedcalculator.v1",
+        "com.nike.running.ios.manualentry",
+        "com.nike.nikefuelengine.1.0-A5.0"
+    ],
+    "tags": {
+        "com.nike.name": "Saturday Night Run",
+        "com.nike.running.originalactivityid": "5ED10507-DE42-4C37-9B35-83F9CC19C779",
+        "com.nike.running.runtype": "manual",
+        "evaluation.run.disqualified": "true",
+        "evaluation.run.version": "2.0.0",
+        "location": "outdoors"
+    },
+    "change_tokens": [
+        "2ba5f1f4ce6311054cd8382f237d5e3f33ad009885d3b87c44987a66c63208c8:1782569588870",
+        "6ad7ccaca82d047d056b0867cb179afe03b752da1f354889c8b9ad38ff3b21d2:1782569581083",
+        "fca127a309c1c29cbe1366b276146003352e5836f2cd41a3284726fdbdc2c811:1782569580763"
+    ],
+    "metric_types": [
+        "distance",
+        "pace",
+        "nikefuel",
+        "speed"
+    ],
+    "metrics": [
+        {
+            "type": "distance",
+            "unit": "KM",
+            "source": "com.nike.running.ios.manualentry",
+            "appId": "com.nike.sport.running.ios",
+            "values": [
+                {
+                    "start_epoch_ms": 1782569551495,
+                    "end_epoch_ms": 1782571591495,
+                    "value": 5
+                }
+            ]
+        },
+        {
+            "type": "pace",
+            "unit": "MKM",
+            "source": "com.nike.running.ios.manualentry",
+            "appId": "com.nike.sport.running.ios",
+            "values": [
+                {
+                    "start_epoch_ms": 1782569551495,
+                    "end_epoch_ms": 1782569551495,
+                    "value": 6.8
+                }
+            ]
+        },
+        {
+            "type": "nikefuel",
+            "unit": "FUEL",
+            "source": "com.nike.nikefuelengine.1.0-A5.0",
+            "appId": "com.nike.sport.running.ios",
+            "values": [
+                {
+                    "start_epoch_ms": 1782569551495,
+                    "end_epoch_ms": 1782569561000,
+                    "value": 2.318761764705883
+                }
+            ]
+        },
+        {
+            "type": "speed",
+            "unit": "KMH",
+            "source": "com.nike.speedcalculator.v1",
+            "appId": "com.nike.sport.running.ios",
+            "values": [
+                {
+                    "start_epoch_ms": 1782569551495,
+                    "end_epoch_ms": 1782569551495,
+                    "value": 8.823529411764707
+                }
+            ]
+        }
+    ],
+    "moments": []
+}
