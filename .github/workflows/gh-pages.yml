@@ -32,15 +32,10 @@ concurrency:
 jobs:
   # This workflow contains a single job called "build"
   build_and_deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      pages: write
-      id-token: write
+      contents: write
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -49,7 +44,7 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
-          persist-credentials: false
+          persist-credentials: true
 
       - name: Cache Data Files
         if: inputs.save_data_in_github_cache
@@ -97,14 +92,23 @@ jobs:
           REPO_NAME: ${{ github.event.repository.name }}
         run: PATH_PREFIX=/$REPO_NAME pnpm build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload dist repository
-          name: pages-artifact
-          path: './dist'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          artifact_name: pages-artifact
+      - name: Publish to gh-pages branch
+        env:
+          TARGET_BRANCH: gh-pages
+        run: |
+          set -euo pipefail
+          publish_dir="$(mktemp -d)"
+          git fetch origin "$TARGET_BRANCH"
+          git worktree add -B "$TARGET_BRANCH" "$publish_dir" "origin/$TARGET_BRANCH"
+          find "$publish_dir" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -R dist/. "$publish_dir"/
+          touch "$publish_dir"/.nojekyll
+          git -C "$publish_dir" add -A
+          if git -C "$publish_dir" diff --cached --quiet; then
+            echo "No changes to publish"
+          else
+            git -C "$publish_dir" config user.name "${{ github.actor }}"
+            git -C "$publish_dir" config user.email "${{ github.actor }}@users.noreply.github.com"
+            git -C "$publish_dir" commit -m "Deploy site"
+            git -C "$publish_dir" push origin "$TARGET_BRANCH"
+          fi
