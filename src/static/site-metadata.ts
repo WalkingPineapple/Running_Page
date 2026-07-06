@@ -16,7 +16,7 @@ const getBasePath = () => {
 
 const data: ISiteMetadataResult = {
   siteTitle: '肉仔减肥路',
-  siteUrl: 'https://walkingpineapple.github.io/Running_Page',
+  siteUrl: 'https://run.p1neapple.cc',
   logo: 'https://s3.bmp.ovh/imgs/2021/12/091dd18e9afcdba0.jpg',
   description: 'Personal site and blog',
   navLinks: [

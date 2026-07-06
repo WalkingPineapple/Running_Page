@@ -83,13 +83,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Build
-        env:
-          REPO_NAME: ${{ github.event.repository.name }}
-        run: PATH_PREFIX=/$REPO_NAME pnpm build
+        run: pnpm build
 
       - name: Publish to gh-pages branch
         env:
           TARGET_BRANCH: gh-pages
+          CUSTOM_DOMAIN: run.p1neapple.cc
         run: |
           set -euo pipefail
           publish_dir="$(mktemp -d)"
@@ -98,6 +97,7 @@ jobs:
           find "$publish_dir" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
           cp -R dist/. "$publish_dir"/
           touch "$publish_dir"/.nojekyll
+          printf '%s\n' "$CUSTOM_DOMAIN" > "$publish_dir"/CNAME
           git -C "$publish_dir" add -A
           if git -C "$publish_dir" diff --cached --quiet; then
             echo "No changes to publish"
