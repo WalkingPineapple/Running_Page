@@ -1,4 +1,5 @@
 import argparse
+from base64 import b64decode
 import json
 import logging
 import os.path
@@ -25,13 +26,37 @@ logger = logging.getLogger("nike_sync")
 
 BASE_URL = "https://api.nike.com/plus/v3"
 TOKEN_REFRESH_URL = "https://api.nike.com/idn/shim/oauth/2.0/token"
+NIKE_CLIENT_ID = "VmhBZWFmRUdKNkc4ZTlEeFJVejhpRTUwQ1o5TWlKTUc="
+NIKE_UX_ID = "Y29tLm5pa2Uuc3BvcnQucnVubmluZy5pb3MuNS4xNQ=="
+NIKE_HEADERS = {
+    "Host": "api.nike.com",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
 
 
 class Nike:
-    def __init__(self, access_token):
+    def __init__(self, token):
         self.client = httpx.Client()
+        self.refresh_token = token
 
-        self.client.headers.update({"Authorization": f"Bearer {access_token}"})
+        self.client.headers["Authorization"] = "Bearer " + token
+
+    def refresh_access_token(self):
+        response = self.client.post(
+            TOKEN_REFRESH_URL,
+            headers=NIKE_HEADERS,
+            json={
+                "refresh_token": self.refresh_token,
+                "client_id": b64decode(NIKE_CLIENT_ID).decode(),
+                "grant_type": "refresh_token",
+                "ux_id": b64decode(NIKE_UX_ID).decode(),
+            },
+            timeout=60,
+        )
+        response.raise_for_status()
+        access_token = response.json()["access_token"]
+        self.client.headers["Authorization"] = "Bearer " + access_token
 
     def get_activities_before_id(self, activity_id):
         if not activity_id:
@@ -58,9 +83,18 @@ class Nike:
     def request(self, resource):
         url = f"{BASE_URL}/{resource}"
         logger.info(f"GET: {url}")
-        response = self.client.get(url)
-        response.raise_for_status()
-        return response.json()
+        try:
+            response = self.client.get(url)
+            response.raise_for_status()
+            return response.json()
+        except httpx.HTTPStatusError as e:
+            if e.response is not None and e.response.status_code == 401:
+                logger.warning("Nike token unauthorized, trying refresh token exchange")
+                self.refresh_access_token()
+                response = self.client.get(url)
+                response.raise_for_status()
+                return response.json()
+            raise
 
 
 def run(refresh_token, is_continue_sync=False):
